@@ -1,0 +1,44 @@
+@mixin setStyleForPEle {
+    font-size: 12px;
+    margin: 0;
+}
+
+footer {
+    .container {
+        .address {
+            padding: 3rem 3rem;
+            p {
+                @include setStyleForPEle;
+                span {
+                    font-weight: bold;
+                }
+                &:first-child {
+                    font-size: 14px;
+                }
+            }
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            .copy-right {
+                p {
+                    @include setStyleForPEle;
+                    &:first-child {
+                        font-size: 14px;
+                        font-weight: bold;
+                    }
+                }
+            }
+            .images {
+                display: flex;
+                align-items: center;
+                img {
+                    &.gov {
+                        width: 40px;
+                        height: 35px;
+                    }
+                }
+            }
+        }
+    }
+}
