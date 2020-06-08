@@ -26,9 +26,11 @@ main {
             .catetory {
                 border-bottom: #efefef 2px solid;
                 margin-bottom: 1rem;
+                padding-bottom: 1rem;
             }
             .review {
                 span {
+                    color: #b8b8b8;
                     &.checked {
                         color: orange;
                     }
