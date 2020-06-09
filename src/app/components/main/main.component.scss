@@ -1,44 +1,7 @@
 main {
     .container {
-        display: flex;
         background-color: white;
+        padding: 0;
     }
-    section {
-        &.side-bar {
-            width: 250px;
-            padding: 1rem 10px;
-            a {
-                text-decoration: none;
-                color: inherit;
-            }
-            p {
-                margin: 0;
-                &.title {
-                    margin-bottom: 1rem;
-                }
-            }
-            span {
-                &.tiny-word {
-                    font-size: 14px;
-                    color: #787878;
-                }
-            }
-            .catetory {
-                border-bottom: #efefef 2px solid;
-                margin-bottom: 1rem;
-                padding-bottom: 1rem;
-            }
-            .review {
-                span {
-                    color: #b8b8b8;
-                    &.checked {
-                        color: orange;
-                    }
-                }
-            }
-        }
-        &.content {
-            flex: 1;
-        }
-    }
+    
 }

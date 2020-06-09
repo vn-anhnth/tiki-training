@@ -1,0 +1,109 @@
+<div class="product-list">
+    <section class="side-bar">
+        <div class="catetory">
+            <p class="title"><b>DANH MỤC SẢN PHẨM</b></p>
+            <a href="">
+                <p>Tất cả <span class="tiny-word">(150)</span></p>
+            </a>
+            <a href="">
+                <p>Quạt mini <span class="tiny-word">(30)</span></p>
+            </a>
+            <a href="">
+                <p>Quạt bàn <span class="tiny-word">(30)</span></p>
+            </a>
+            <a href="">
+                <p>Quạt gió <span class="tiny-word">(30)</span></p>
+            </a>
+            <a href="">
+                <p>Quạt chơi <span class="tiny-word">(30)</span></p>
+            </a>
+            <a href="">
+                <p>Quạt thông thoáng <span class="tiny-word">(30)</span></p>
+            </a>
+        </div>
+        <div class="review">
+            <p class="title"><b>ĐÁNH GIÁ</b></p>
+            <a href="">
+                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', 'checked', 'checked']">
+                    <span class="fa fa-star {{item}}"></span>
+                </span>
+                <span class="tiny-word"> (từ 5 sao)</span>
+            </a>
+            <br>
+            <a href="">
+                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']">
+                    <span class="fa fa-star {{item}}"></span>
+                </span>
+                <span class="tiny-word"> (từ 4 sao)</span>
+            </a>
+            <br>
+            <a href="">
+                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', '', '']">
+                    <span class="fa fa-star {{item}}"></span>
+                </span>
+                <span class="tiny-word"> (từ 3 sao)</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="filter">
+            <div class="filter__listbox">Quạt mini: <span>77 kết quả</span></div>
+            <div class="filter__item">
+                <i class="fa fa-info-circle text-warning"></i>
+                Tiêu chí đang chọn: <span>Đánh giá từ 4 sao</span><a href="">X</a>
+            </div>
+        </div>
+        <div class="product">
+            <div class="product__short-list">
+                <ul>
+                    <li>Ưu tiên xem:</li>
+                    <li><a href="">HÀNG MỚI</a></li>
+                    <li><a href="">BÁN CHẠY</a></li>
+                    <li><a href="">GIẢM GIÁ NHIỀU</a></li>
+                    <li><a href="">GIÁ THẤP</a></li>
+                    <li><a href="">GIÁ CAO</a></li>
+                    <li><a href="">CHỌN LỌC</a></li>
+                    <li>
+                        <input type="text" placeholder="Tìm trong Quạt mini">
+                        <a href="">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="product__box-list">
+                <ul class="box">
+                    <li *ngFor="let item of [0,1,2,3,4,5,6, 7]">
+                        <a href="">
+                            <ul class="item">
+                                <li><img src="assets/images/quat-mini.jpeg" alt="Quạt mini"></li>
+                                <li class="title">Máy Giặt Cửa Ngang Inverter Electrolux EWF12935S (9.5 Kg) - Xám Bạc -
+                                    Hàng
+                                    Chính Hãng</li>
+                                <li class="final-price"><b>12.890.000</b><span>-30%</span></li>
+                                <li class="regular-price"><del>18.400.000</del></li>
+                                <li class="rating">
+                                    <span *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']"
+                                        class="fa fa-star {{item}}"></span>
+                                    <span class="tiny-word"> (6 nhận xét)</span>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li class="extra"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="product__pagination">
+            <a href="#" class="circle">&laquo;</a>
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#" class="circle">&raquo;</a>
+        </div>
+    </section>
+</div>

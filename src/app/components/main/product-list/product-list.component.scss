@@ -1,0 +1,180 @@
+.product-list {
+    display: flex;
+    section {
+        &.side-bar {
+            flex: 0 0 20%;
+            padding: 1rem 10px;
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+            p {
+                margin: 0;
+                &.title {
+                    margin-bottom: 1rem;
+                }
+            }
+            span {
+                &.tiny-word {
+                    font-size: 14px;
+                    color: #787878;
+                }
+            }
+            .catetory {
+                border-bottom: #efefef 2px solid;
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+            }
+            .review {
+                span {
+                    color: #b8b8b8;
+                    &.checked {
+                        color: orange;
+                    }
+                }
+            }
+        }
+        &.content {
+            padding: 1rem 10px;
+            border: #efefef solid 1px;
+            .filter {
+                margin-bottom: 1rem;
+                &__listbox {
+                    font-size: 26px;
+                    span {
+                        color: #b8b8b8;
+                    }
+                }
+                &__item {
+                    span {
+                        background-color: #189eff;
+                        border: #189eff 1px solid;
+                        border-radius: 5px 0 0 5px;
+                        padding: 5px;
+                        color: white;
+                    }
+                    a {
+                        border: #189eff 1px solid;
+                        border-radius: 0 5px 5px 0;
+                        background-color: #0087eb;
+                        padding: 5px;
+                        color: white;
+                        text-decoration: none;
+                    }
+                }
+            }
+            .product {
+                &__short-list {
+                    border-bottom: #b8b8b8 1px solid;
+                    ul {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-size: 14px;
+                        list-style-type: none;
+                        li {
+                            a {
+                                text-decoration: none;
+                                color: #b8b8b8;
+                            }
+                            &:last-child {
+                                display: flex;
+                                height: 33px;
+                                input {
+                                    border: #b8b8b8 1px solid;
+                                    border-radius: 5px 0 0 5px;
+                                    padding: 5px;
+                                }
+                                a {
+                                    display: block;
+                                    background-color: #edeef2;
+                                    color: #4a4a4a;
+                                    border: #b8b8b8 1px solid;
+                                    border-radius: 0 5px 5px 0;
+                                    padding: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+                &__box-list {
+                    padding-top: 1rem;
+                    ul {
+                        li {
+                            list-style-type: none;
+                            a {
+                                text-decoration: none;
+                                color: black;
+                            }
+                        }
+                        &.box {
+                            display: flex;
+                            flex-flow: row wrap;
+                            justify-content: space-between;
+                            li {
+                                flex: 0 0 30%;
+                            }
+                        }
+                        &.item {
+                            display: flex;
+                            flex-flow: column wrap;
+                            li {
+                                margin-bottom: 1rem;
+                                &:not(:last-child) {
+                                    margin-bottom: 5px;
+                                }
+                                img {
+                                    width: 100%;
+                                    height: 300px;
+                                    margin-bottom: 1rem;
+                                }
+                                &.title {
+                                    font-size: 14px;
+                                    color: #4a4a4a;
+                                }
+                                &.final-price {
+                                    span {
+                                        margin-left: 5px;
+                                        font-size: 14px;
+                                        color: #b8b8b8;
+                                    }
+                                }
+                                &.regular-price {
+                                    font-size: 14px;
+                                    color: #4a4a4a;
+                                }
+                                &.rating {
+                                    font-size: 14px;
+                                    color: #b8b8b8;
+                                    .checked {
+                                        color: orange;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                &__pagination {
+                    display: flex;
+                    justify-content: flex-end;
+                    a {
+                        color: black;
+                        float: left;
+                        padding: 8px 16px;
+                        text-decoration: none;
+                        &.active {
+                            background-color: #4caf50;
+                            color: white;
+                            border-radius: 50%;
+                        }
+                        &:hover:not(.active),
+                        &.circle {
+                            background-color: #ddd;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

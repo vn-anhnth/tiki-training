@@ -1,0 +1,33 @@
+.product-detail {
+    a {
+        text-decoration: none;
+    }
+
+    .beardcrumbs {
+        background-color: rgb(239, 239, 239);
+        span {
+            a {
+                color: rgb(153, 153, 153);
+            }
+            display: inline-block;
+            line-height: 40px;
+            border-right: 20px rgb(153, 153, 153) solid;
+        }
+    }
+
+    .detail {
+        display: flex;
+        &__image {
+            flex: 0 0 30%;
+            img {
+                width: 100%;
+            }
+        }
+        &__info {
+            flex: 1;
+            .title {
+                border-bottom: #dee2e6 1px solid;
+            }
+        }
+    }
+}
