@@ -1,0 +1,13 @@
+.layout {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    main {
+        flex: 1;
+        background-color: rgb(239, 239, 239);
+        .container {
+            background-color: white;
+            padding: 0;
+        }
+    }
+}

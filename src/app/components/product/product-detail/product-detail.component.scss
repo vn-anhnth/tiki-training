@@ -19,12 +19,14 @@
         display: flex;
         &__image {
             flex: 0 0 30%;
+            padding: 1rem;
             img {
                 width: 100%;
             }
         }
         &__info {
             flex: 1;
+            border-left: #dee2e6 1px solid;
             .title {
                 border-bottom: #dee2e6 1px solid;
             }

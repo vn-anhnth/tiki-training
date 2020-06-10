@@ -5,20 +5,8 @@
             <a href="">
                 <p>Tất cả <span class="tiny-word">(150)</span></p>
             </a>
-            <a href="">
-                <p>Quạt mini <span class="tiny-word">(30)</span></p>
-            </a>
-            <a href="">
-                <p>Quạt bàn <span class="tiny-word">(30)</span></p>
-            </a>
-            <a href="">
-                <p>Quạt gió <span class="tiny-word">(30)</span></p>
-            </a>
-            <a href="">
-                <p>Quạt chơi <span class="tiny-word">(30)</span></p>
-            </a>
-            <a href="">
-                <p>Quạt thông thoáng <span class="tiny-word">(30)</span></p>
+            <a href="" *ngFor="let category of categories">
+                <p>{{category.categoryName}} <span class="tiny-word">(30)</span></p>
             </a>
         </div>
         <div class="review">
