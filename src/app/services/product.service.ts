@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
-import { Category } from '../interfaces/product/category';
+import { Category } from '../models/product/category';
 import { environment } from 'src/environments/environment';
-import { Product } from '../interfaces/product/product';
+import { Product } from '../models/product/product';
 
 @Injectable({
     providedIn: 'root'
