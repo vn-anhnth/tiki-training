@@ -9,6 +9,9 @@ import { FooterComponent } from './_layout/footer/footer.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { ProductDetailComponent } from './components/product/product-detail/product-detail.component';
 import { LayoutComponent } from './_layout/layout/layout.component';
+import { ProductTotalQuantityPipe } from './Pipes/product-total-quantity.pipe';
+import { PaginationPipe } from './Pipes/pagination.pipe';
+import { MainComponent } from './_layout/main/main.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +20,10 @@ import { LayoutComponent } from './_layout/layout/layout.component';
         FooterComponent,
         ProductListComponent,
         ProductDetailComponent,
-        LayoutComponent
+        LayoutComponent,
+        ProductTotalQuantityPipe,
+        PaginationPipe,
+        MainComponent
     ],
     imports: [
         BrowserModule,

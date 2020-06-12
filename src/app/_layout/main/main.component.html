@@ -1,0 +1,48 @@
+<div class="main">
+    <section class="side-bar">
+        <div class="catetory">
+            <p class="title"><b>DANH MỤC SẢN PHẨM</b></p>
+            <a 
+                routerLink=""
+                (click)="getAllProducts(false, {page: 1, limit: 5})"
+                [ngClass]="{'selected': selecteCategoryId === ''}"
+            >
+                <p>Tất cả <span class="tiny-word">({{products | productTotalQuantity}})</span></p>
+            </a>
+            <a
+                routerLink="" *ngFor="let category of categories"
+                (click)="getProductsByCategoryId(category.id)"
+                [ngClass]="{'selected': selecteCategoryId === category.id}"
+            >
+                <p>{{category.categoryName}} <span class="tiny-word">({{products | productTotalQuantity: category.id}})</span></p>
+            </a>
+        </div>
+        <div class="review">
+            <p class="title"><b>ĐÁNH GIÁ</b></p>
+            <a href="">
+                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', 'checked', 'checked']">
+                    <span class="fa fa-star {{item}}"></span>
+                </span>
+                <span class="tiny-word"> (từ 5 sao)</span>
+            </a>
+            <br>
+            <a href="">
+                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']">
+                    <span class="fa fa-star {{item}}"></span>
+                </span>
+                <span class="tiny-word"> (từ 4 sao)</span>
+            </a>
+            <br>
+            <a href="">
+                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', '', '']">
+                    <span class="fa fa-star {{item}}"></span>
+                </span>
+                <span class="tiny-word"> (từ 3 sao)</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="content">
+        <router-outlet></router-outlet>
+    </section>
+</div>

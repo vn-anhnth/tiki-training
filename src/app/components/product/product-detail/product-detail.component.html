@@ -4,13 +4,13 @@
         <span><a href="">Quạt mini </a></span>
         <span><a href="">Máy Giặt Cửa Ngang Inverter Electrolux EWF12935S (9.5 Kg) - Xám Bạc - Hàng ChínhHãng</a></span>
     </div>
-    <div class="detail">
+    <div class="detail" *ngIf="product">
         <div class="detail__image">
-            <img src="assets/images/quat-mini.jpeg" alt="">
+            <img src="{{product.img}}" alt="">
         </div>
         <div class="detail__info">
             <div class="title">
-                Máy Rửa Bát Bosch SMS63L08EA
+                {{product.productName}}
                 <li class="rating">
                     <span *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']"
                         class="fa fa-star {{item}}"></span>
