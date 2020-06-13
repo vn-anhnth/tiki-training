@@ -17,12 +17,11 @@ export class ProductListComponent implements OnInit {
     kindofProductsLen: number;
 
     constructor(private productService: ProductService) {
-        productService.productList$
-            .subscribe(productList => {
-                this.kindofProductsLen = productList?.kindofProductsLen || this.kindofProductsLen;
-                this.products = productList?.products;
-                this.selectedPage = productList?.kindofProductsLen ? 1 : this.selectedPage;
-            });
+        productService.productList$.subscribe(productList => {
+            this.selectedPage = productList.kindofProductsLen === this.kindofProductsLen ? this.selectedPage : 1;
+            this.products = productList.products;
+            this.kindofProductsLen = productList.kindofProductsLen;
+        });
     }
 
     ngOnInit(): void {
@@ -32,11 +31,12 @@ export class ProductListComponent implements OnInit {
         this.selectedPage = selectedPage;
         if (document.querySelectorAll('[data-categoryId="all"]')[0].classList.contains('selected')) {
             this.productService.getAllProducts(selectedPage, this.limit)
-            .subscribe(products =>
-                this.productService.setProducts({
-                    products
-                })
-            );
+                .subscribe(products =>
+                    this.productService.setProducts({
+                        kindofProductsLen: this.kindofProductsLen,
+                        products
+                    })
+                );
         } else {
             const randomProduct: number = Math.floor(Math.random() * this.products.length);
             this.productService.getProductsByCategoryId(this.products[randomProduct].categoryId, selectedPage, this.limit)
