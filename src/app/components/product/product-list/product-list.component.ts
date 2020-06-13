@@ -12,12 +12,17 @@ import { Product } from 'src/app/models/product/product';
 export class ProductListComponent implements OnInit {
 
     products: Product[] = [];
-    realProductsLen: number;
-    selectedPage: number = 1;
+    selectedPage = 1;
+    limit = 5;
+    kindofProductsLen: number;
 
     constructor(private productService: ProductService) {
-        productService.products$.subscribe(products => this.products = products);
-        productService.realProductsLen$.subscribe(realProductsLen => this.realProductsLen = realProductsLen);
+        productService.productList$
+            .subscribe(productList => {
+                this.kindofProductsLen = productList?.kindofProductsLen || this.kindofProductsLen;
+                this.products = productList?.products;
+                this.selectedPage = productList?.kindofProductsLen ? 1 : this.selectedPage;
+            });
     }
 
     ngOnInit(): void {
@@ -25,8 +30,17 @@ export class ProductListComponent implements OnInit {
 
     setSelectedPage(selectedPage: number): void {
         this.selectedPage = selectedPage;
-        const randomProduct: number = Math.floor(Math.random() * this.products.length);
-        this.productService.getProductsByCategoryId({ categoryId: this.products[randomProduct].categoryId, selectedPage, limit: 5 })
-            .subscribe();
+        if (document.querySelectorAll('[data-categoryId="all"]')[0].classList.contains('selected')) {
+            this.productService.getAllProducts(selectedPage, this.limit)
+            .subscribe(products =>
+                this.productService.setProducts({
+                    products
+                })
+            );
+        } else {
+            const randomProduct: number = Math.floor(Math.random() * this.products.length);
+            this.productService.getProductsByCategoryId(this.products[randomProduct].categoryId, selectedPage, this.limit)
+                .subscribe(products => this.products = products);
+        }
     }
 }

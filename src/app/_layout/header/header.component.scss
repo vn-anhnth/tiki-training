@@ -80,13 +80,13 @@ header {
     }
 }
 
-@media only screen and(max-width: 768px) {
+@media only screen and(min-width: 768px) {
     .search-input {
         width: 15rem;
     }
 }
 
-@media only screen and(max-width: 992px) {
+@media only screen and(min-width: 992px) {
     .search-input {
         width: 25rem;
     }

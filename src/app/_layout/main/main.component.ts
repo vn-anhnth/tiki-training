@@ -11,33 +11,39 @@ import { ProductService } from 'src/app/services/product.service';
 export class MainComponent implements OnInit {
 
     categories: Category[] = [];
-    products: Product[] = [];
     selecteCategoryId: string;
+    limit = 5;
 
     constructor(private productService: ProductService) { }
 
     ngOnInit(): void {
         this.getCategories();
-        this.getAllProducts(true);
+        this.getAllProducts(1, this.limit);
     }
 
-    getAllProducts(firstTime?: boolean, option?: any): void {
-        this.productService.getAllProducts(firstTime, option)
-            .subscribe(products => {
-                if (firstTime) {
-                    this.products = products;
-                }
-            });
+    getAllProducts(page: number, limit: number): void {
+        this.productService.getAllProducts(page, limit)
+            .subscribe(products =>
+                this.productService.setProducts({
+                    kindofProductsLen: this.categories.reduce((total, category) => total += category.total, 0),
+                    products
+                })
+            );
         this.selecteCategoryId = '';
     }
 
     getCategories(): void {
-        this.productService.getCategories()
-            .subscribe(categories => this.categories = categories);
+        this.productService.getCategories().subscribe(categories => this.categories = categories);
     }
 
     getProductsByCategoryId(categoryId: string): void {
-        this.productService.getProductsByCategoryId({ categoryId, selectedPage: 1, limit: 5 }).subscribe();
+        this.productService.getProductsByCategoryId(categoryId, 1, this.limit)
+            .subscribe(products =>
+                this.productService.setProducts({
+                    kindofProductsLen: this.categories.filter(category => category.id === this.selecteCategoryId)[0].total,
+                    products
+                })
+            );
         this.selecteCategoryId = categoryId;
     }
 }

@@ -125,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "tiki-training"
+    }
+  },
+  "defaultProject": "tiki-training",
+  "cli": {
+    "analytics": "a2db6665-6ee0-4e12-afad-0635647c24f4"
+  }
 }

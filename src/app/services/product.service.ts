@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 import { Category } from '../models/product/category';
@@ -12,8 +12,10 @@ import { Product } from '../models/product/product';
 })
 export class ProductService {
 
-    products$ = new Subject<Product[]>();
-    realProductsLen$ = new Subject<number>();
+    productList$: BehaviorSubject<any> = new BehaviorSubject<object>({
+        kindofProductsLen: 0,
+        products: []
+    });
 
     constructor(
         private http: HttpClient,
@@ -23,42 +25,25 @@ export class ProductService {
         return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
     }
 
-    getProductsByCategoryId(option?: any): Observable<Product[]> {
+    getProductsByCategoryId(categoryId: string, page: number, limit: number): Observable<Product[]> {
         return this.http.get<Product[]>(`${environment.apiUrl}/products`).pipe(
             map(products => {
-                products = products.filter(product => product.categoryId === option.categoryId);
-                this.realProductsLen$.next(products.length);
+                products = products.filter(product => product.categoryId === categoryId);
                 products = products.slice(
-                    (option.selectedPage - 1) * option.limit,
-                    option.selectedPage * option.limit
+                    (page - 1) * limit,
+                    page * limit
                 );
-                this.products$.next(products);
                 return products;
             })
         );
     }
 
-    getAllProducts(firstTime?: boolean, option?: any): Observable<Product[]> {
-        if (firstTime) {
-            return this.http.get<Product[]>(`${environment.apiUrl}/products`).pipe(
-                map(products => {
-                    localStorage.setItem('realProductsAllLen', products.length.toString());
-                    this.realProductsLen$.next(products.length);
-                    this.products$.next(products.slice(0, 5));
-                    return products;
-                })
-            );
-        } else {
-            return this.http.get<Product[]>(`${environment.apiUrl}/products/?page=${option.page}&limit=${option.limit}`).pipe(
-                map(products => {
-                    this.products$.next(products);
-                    const realProductsAllLen: number = +localStorage.getItem('realProductsAllLen');
-                    this.realProductsLen$.next(realProductsAllLen);
-                    return products;
-                })
-            );
-        }
+    getAllProducts(page: number, limit: number): Observable<Product[]> {
+        return this.http.get<Product[]>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}`);
+    }
 
+    setProducts(productList) {
+        this.productList$.next(productList);
     }
 
     getProduct(productId): Observable<Product> {

@@ -47,14 +47,14 @@
             </ul>
         </div>
     </div>
-    <div class="pagination" [ngClass]="{'d-none': realProductsLen/5 <= 1}">
-        <a href="#" class="circle" [ngClass]="{'d-none': selectedPage === 1}"
+    <div class="pagination" [ngClass]="{'d-none': kindofProductsLen/limit <= 1}">
+        <a routerLink="" class="circle" [ngClass]="{'d-none': selectedPage === 1}"
             (click)="setSelectedPage(selectedPage - 1)">&laquo;</a>
-        <a href="#" *ngFor="let page of realProductsLen | pagination:5:3:selectedPage" (click)="setSelectedPage(page)"
+        <a routerLink="" *ngFor="let page of kindofProductsLen | pagination:limit:3:selectedPage" (click)="setSelectedPage(page)"
             [ngClass]="{'active': selectedPage === page}">
             {{page}}
         </a>
-        <a href="#" class="circle" [ngClass]="{'d-none': realProductsLen/5 - selectedPage <= 0}"
+        <a routerLink="" class="circle" [ngClass]="{'d-none': kindofProductsLen/limit - selectedPage <= 0}"
             (click)="setSelectedPage(selectedPage + 1)">&raquo;</a>
     </div>
 </div>

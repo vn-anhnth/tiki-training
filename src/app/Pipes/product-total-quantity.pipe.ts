@@ -1,17 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Product } from '../models/product/product';
+import { Category } from '../models/product/category';
 
 @Pipe({
     name: 'productTotalQuantity'
 })
 export class ProductTotalQuantityPipe implements PipeTransform {
 
-    transform(products: Product[], categoryId?: string): number {
-        let productsClone = [...products];
+    transform(category: Category[], categoryId?: string): number {
+        let categoryClone = [...category];
         if (categoryId) {
-            productsClone = products.filter(product => product.categoryId === categoryId);
+            categoryClone = category.filter(category => category.id === categoryId);
         }
-        return productsClone.reduce((total, product) => total += product.quantity, 0);
+        return categoryClone.reduce((total, category) => total += category.total, 0);
     }
-
 }
