@@ -6,4 +6,11 @@
     &:focus {
         outline: none;
     }
+    .rating {
+        font-size: 14px;
+        color: #b8b8b8;
+        .checked {
+            color: orange;
+        }
+    }
 }

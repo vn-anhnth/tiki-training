@@ -1,5 +1,6 @@
 .main {
     display: flex;
+    border-bottom: #efefef solid 1px;
     section {
         &.side-bar {
             flex: 0 0 20%;
@@ -47,7 +48,7 @@
         &.content {
             flex: 1;
             padding: 1rem 10px;
-            border: #efefef solid 1px;
+            border-left: #efefef solid 1px;
         }
     }
 }

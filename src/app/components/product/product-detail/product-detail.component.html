@@ -1,21 +1,56 @@
 <div class="product-detail">
     <div class="beardcrumbs">
-        <span><a href="">Trang chủ </a></span>
-        <span><a href="">Quạt mini </a></span>
-        <span><a href="">Máy Giặt Cửa Ngang Inverter Electrolux EWF12935S (9.5 Kg) - Xám Bạc - Hàng ChínhHãng</a></span>
+        <span><a href="">Trang chủ</a></span>
+        <span class="delimiter">»</span>
+        <span><a href="">Quạt mini</a></span>
+        <span class="delimiter">»</span>
+        <span><a href="">{{product.productName}}</a></span>
     </div>
     <div class="detail" *ngIf="product">
         <div class="detail__image">
-            <img src="{{product.img}}" alt="">
+            <div class="images">
+                <a href=""><img src="{{product.img}}" alt=""></a>
+                <a href=""><img src="{{product.img}}" alt=""></a>
+                <a href=""><img src="{{product.img}}" alt=""></a>
+            </div>
+            <div class="thumbnail">
+                <img src="{{product.img}}" alt="">
+            </div>
         </div>
         <div class="detail__info">
-            <div class="title">
-                {{product.productName}}
-                <li class="rating">
+            <div class="top">
+                <span class="title">{{product.productName}}</span>
+                <div class="rating">
                     <span *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']"
                         class="fa fa-star {{item}}"></span>
                     <span class="tiny-word"> (6 nhận xét)</span>
-                </li>
+                </div>
+            </div>
+            <div class="price">
+                <p class="final-price">20.092.000 ₫</p>
+                <p class="saving-price">Tiết kiệm: <span>{{product.discount}}% </span>(21.560.000 ₫)</p>
+                <p class="regular-price">Giá thị trường: 41.652.000 ₫</p>
+            </div>
+            <div class="description">
+                <ul>
+                    <li>Loại TV: Smart LED</li>
+                    <li>Kích thước TV: 65 Inch</li>
+                    <li>Độ Phân Giải: Ultra HD 4K</li>
+                </ul>
+            </div>
+            <div class="quantity-input">
+                <div class="quantity">
+                    <p>Số lượng:</p>
+                    <button>-</button>
+                    <input type="text"value="1">
+                    <button>+</button>
+                </div>
+                <div class="add-to-cart">
+                    <button>
+                        <i class="fa fa-shopping-cart fa-2x cart" aria-hidden="true"></i>
+                        CHỌN MUA
+                    </button>
+                </div>
             </div>
         </div>
     </div>
