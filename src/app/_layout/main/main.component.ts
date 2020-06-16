@@ -14,11 +14,23 @@ export class MainComponent implements OnInit {
     selecteCategoryId: string;
     limit = 5;
 
-    constructor(private productService: ProductService) { }
+    constructor(private productService: ProductService) {
+        productService.productList$.subscribe(productList => {
+            if (productList.searchAllValue) {
+                this.selecteCategoryId = '';
+            }
+        });
+     }
 
     ngOnInit(): void {
         this.getCategories();
-        this.getAllProducts(1, this.limit);
+    }
+
+    getCategories(): void {
+        this.productService.getCategories().subscribe(categories => {
+            this.categories = categories;
+            this.getAllProducts(1, this.limit);
+        });
     }
 
     getAllProducts(page: number, limit: number): void {
@@ -26,14 +38,11 @@ export class MainComponent implements OnInit {
             .subscribe(products =>
                 this.productService.setProducts({
                     kindofProductsLen: this.categories.reduce((total, category) => total += category.total, 0),
-                    products
+                    products,
+                    categoryId: 'all'
                 })
             );
         this.selecteCategoryId = '';
-    }
-
-    getCategories(): void {
-        this.productService.getCategories().subscribe(categories => this.categories = categories);
     }
 
     getProductsByCategoryId(categoryId: string): void {
@@ -41,7 +50,8 @@ export class MainComponent implements OnInit {
             .subscribe(products =>
                 this.productService.setProducts({
                     kindofProductsLen: this.categories.filter(category => category.id === this.selecteCategoryId)[0].total,
-                    products
+                    products,
+                    categoryId
                 })
             );
         this.selecteCategoryId = categoryId;

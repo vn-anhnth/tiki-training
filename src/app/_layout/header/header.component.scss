@@ -53,7 +53,7 @@ header {
             .search-bar {
                 display: flex;
                 align-items: center;
-                .search-input {
+                .searchAll-input {
                     width: 25rem;
                     height: 40px;
                     font-size: 14px;
@@ -81,13 +81,13 @@ header {
 }
 
 @media only screen and(min-width: 768px) {
-    .search-input {
+    .searchAll-input {
         width: 15rem;
     }
 }
 
 @media only screen and(min-width: 992px) {
-    .search-input {
+    .searchAll-input {
         width: 25rem;
     }
 }

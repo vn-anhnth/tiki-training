@@ -3,7 +3,7 @@
         <div class="catetory">
             <p class="title"><b>DANH MỤC SẢN PHẨM</b></p>
             <a 
-                routerLink=""   
+                routerLink=""
                 (click)="getAllProducts(1, limit)"
                 [ngClass]="{'selected': selecteCategoryId === ''}"
                 [attr.data-categoryId] = "'all'"
@@ -14,6 +14,7 @@
                 routerLink="" *ngFor="let category of categories"
                 (click)="getProductsByCategoryId(category.id)"
                 [ngClass]="{'selected': selecteCategoryId === category.id}"
+                [attr.data-categoryId] = "category.id"
             >
                 <p>{{category.categoryName}} <span class="tiny-word">({{categories | productTotalQuantity: category.id}})</span></p>
             </a>

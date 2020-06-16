@@ -17,8 +17,8 @@
                 <li><a href="">GIÁ CAO</a></li>
                 <li><a href="">CHỌN LỌC</a></li>
                 <li>
-                    <input type="text" placeholder="Tìm trong Quạt mini">
-                    <a href="">
+                    <input #searchInput type="text" placeholder="Tìm trong Quạt mini" (keyup.enter)="searchProductByName(searchInput.value, 1)">
+                    <a href="" routerLink="" (click)="searchProductByName(searchInput.value, 1)">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </a>
                 </li>
@@ -29,12 +29,12 @@
                 <li *ngFor="let product of products">
                     <a routerLink="/detail/{{product.id}}">
                         <ul class="item">
-                            <li><img src="{{product.img}}" alt="Quạt mini"></li>
+                            <li><img src="{{product.img[0]}}" alt="Quạt mini"></li>
                             <li class="title">{{product.productName}}</li>
                             <li class="final-price">
-                                <b>{{product.price - (product.discount/100*product.price)}}</b><span>-{{product.discount}}%</span>
+                                <b>{{(product.price - (product.discount/100*product.price)) | number}} ₫</b><span>-{{product.discount}}%</span>
                             </li>
-                            <li class="regular-price"><del>{{product.price}}</del></li>
+                            <li class="regular-price"><del>{{product.price | number}} ₫</del></li>
                             <li class="rating">
                                 <span *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']"
                                     class="fa fa-star {{item}}"></span>
@@ -48,13 +48,6 @@
         </div>
     </div>
     <div class="pagination" [ngClass]="{'d-none': kindofProductsLen/limit <= 1}">
-        <a routerLink="" class="circle" [ngClass]="{'d-none': selectedPage === 1}"
-            (click)="setSelectedPage(selectedPage - 1)">&laquo;</a>
-        <a routerLink="" *ngFor="let page of kindofProductsLen | pagination:limit:3:selectedPage" (click)="setSelectedPage(page)"
-            [ngClass]="{'active': selectedPage === page}">
-            {{page}}
-        </a>
-        <a routerLink="" class="circle" [ngClass]="{'d-none': kindofProductsLen/limit - selectedPage <= 0}"
-            (click)="setSelectedPage(selectedPage + 1)">&raquo;</a>
+        <ngb-pagination [collectionSize]="kindofProductsLen" [(page)]="selectedPage" [pageSize]="limit" [maxSize]="5" [rotate]="true" [ellipses]="false" (pageChange)="setSelectedPage($event)" ></ngb-pagination>
     </div>
 </div>

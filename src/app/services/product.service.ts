@@ -14,7 +14,10 @@ export class ProductService {
 
     productList$: BehaviorSubject<any> = new BehaviorSubject<object>({
         kindofProductsLen: 0,
-        products: []
+        products: [],
+        searchAllValue: '',
+        searchValue: '',
+        categoryId: ''
     });
 
     constructor(
@@ -48,5 +51,41 @@ export class ProductService {
 
     getProduct(productId): Observable<Product> {
         return this.http.get<Product>(`${environment.apiUrl}/products/${productId}`);
+    }
+
+    searchProductByName(categoryId: string, productName: string, page: number, limit: number): Observable<any> {
+        return this.http.get<Product[]>(`${environment.apiUrl}/products?search=${productName}`).pipe(
+            map(products => {
+                products = products.filter(product => product.productName.includes(productName));
+                if (categoryId !== 'all') {
+                    products = products.filter(product => product.categoryId === categoryId);
+                }
+                const kindofProductsLen: number = products.length;
+                products = products.slice(
+                    (page - 1) * limit,
+                    page * limit
+                );
+                return {
+                    kindofProductsLen,
+                    products
+                };
+            })
+        );
+    }
+
+    searchAll(searchKey: string, page: number, limit: number): Observable<any> {
+        return this.http.get<Product[]>(`${environment.apiUrl}/products?search=${searchKey}`).pipe(
+            map(products => {
+                const kindofProductsLen: number = products.length;
+                products = products.slice(
+                    (page - 1) * limit,
+                    page * limit
+                );
+                return {
+                    kindofProductsLen,
+                    products
+                };
+            })
+        );
     }
 }

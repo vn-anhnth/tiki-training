@@ -3,10 +3,10 @@
         <div class="container">
             <a href=""><img class="logo" src="assets/images/logo-tiki.png" alt="Tiki"></a>
             <div class="search-bar">
-                <input type="text" class="search-input"
+                <input type="text" class="searchAll-input" #searchAllInput (keyup.enter)="searchAll(searchAllInput.value)"
                     placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn ...">
                 <div class="search-btn">
-                    <a href="">
+                    <a routerLink="" (click)="searchAll(searchAllInput.value)">
                         <i class="fa fa-search" aria-hidden="true"></i>
                         Tìm kiếm
                     </a>

@@ -10,8 +10,8 @@ import { ProductListComponent } from './components/product/product-list/product-
 import { ProductDetailComponent } from './components/product/product-detail/product-detail.component';
 import { LayoutComponent } from './_layout/layout/layout.component';
 import { ProductTotalQuantityPipe } from './Pipes/product-total-quantity.pipe';
-import { PaginationPipe } from './Pipes/pagination.pipe';
 import { MainComponent } from './_layout/main/main.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -22,13 +22,13 @@ import { MainComponent } from './_layout/main/main.component';
         ProductDetailComponent,
         LayoutComponent,
         ProductTotalQuantityPipe,
-        PaginationPipe,
         MainComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        NgbModule
     ],
     providers: [],
     bootstrap: [AppComponent]

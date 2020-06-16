@@ -4,17 +4,15 @@
         <span class="delimiter">»</span>
         <span><a href="">Quạt mini</a></span>
         <span class="delimiter">»</span>
-        <span><a href="">{{product.productName}}</a></span>
+        <span><a href="">aaaa</a></span>
     </div>
     <div class="detail" *ngIf="product">
         <div class="detail__image">
             <div class="images">
-                <a href=""><img src="{{product.img}}" alt=""></a>
-                <a href=""><img src="{{product.img}}" alt=""></a>
-                <a href=""><img src="{{product.img}}" alt=""></a>
+                <a href="" *ngFor="let item of product.img"><img src="{{item}}" alt=""></a>
             </div>
             <div class="thumbnail">
-                <img src="{{product.img}}" alt="">
+                <img src="{{product.img[0]}}" alt="">
             </div>
         </div>
         <div class="detail__info">
@@ -27,15 +25,13 @@
                 </div>
             </div>
             <div class="price">
-                <p class="final-price">20.092.000 ₫</p>
-                <p class="saving-price">Tiết kiệm: <span>{{product.discount}}% </span>(21.560.000 ₫)</p>
-                <p class="regular-price">Giá thị trường: 41.652.000 ₫</p>
+                <p class="final-price">{{(product.price - (product.discount/100*product.price)) | number}} ₫</p>
+                <p class="saving-price">Tiết kiệm: <span>{{product.discount}}% </span>({{(product.discount/100*product.price) | number}} ₫)</p>
+                <p class="regular-price">Giá thị trường: {{product.price | number}} ₫</p>
             </div>
             <div class="description">
                 <ul>
-                    <li>Loại TV: Smart LED</li>
-                    <li>Kích thước TV: 65 Inch</li>
-                    <li>Độ Phân Giải: Ultra HD 4K</li>
+                    <li>{{product.description}}</li>
                 </ul>
             </div>
             <div class="quantity-input">
