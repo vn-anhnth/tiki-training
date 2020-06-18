@@ -25,24 +25,23 @@ export class ProductService {
     ) { }
 
     getCategories(): Observable<Category[]> {
-        return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
+        return this.http.get<any>(`${environment.apiUrl}/categories`).pipe(
+            map(results => results.data)
+        );
     }
 
     getProductsByCategoryId(categoryId: string, page: number, limit: number): Observable<Product[]> {
-        return this.http.get<Product[]>(`${environment.apiUrl}/products`).pipe(
-            map(products => {
-                products = products.filter(product => product.categoryId === categoryId);
-                products = products.slice(
-                    (page - 1) * limit,
-                    page * limit
-                );
-                return products;
+        return this.http.get<any>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}&categoryId=${categoryId}`).pipe(
+            map(results => {
+                return results.data;
             })
         );
     }
 
     getAllProducts(page: number, limit: number): Observable<Product[]> {
-        return this.http.get<Product[]>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}`);
+        return this.http.get<any>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}`).pipe(
+            map(results => results.data)
+        );
     }
 
     setProducts(productList) {

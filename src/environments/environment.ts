@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'https://5ed9fb3198b7f500160dbe1b.mockapi.io/tiki-training'
+    apiUrl: '/api'
 };
 
 /*
