@@ -16,7 +16,7 @@
                 [ngClass]="{'selected': selecteCategoryId === category.id}"
                 [attr.data-categoryId] = "category.id"
             >
-                <p>{{category.categoryName}} <span class="tiny-word">({{categories | productTotalQuantity: category.id}})</span></p>
+                <p>{{category.categoryName}} <span class="tiny-word">({{category.total}})</span></p>
             </a>
         </div>
         <div class="review">

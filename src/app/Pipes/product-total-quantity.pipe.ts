@@ -6,11 +6,7 @@ import { Category } from '../models/product/category';
 })
 export class ProductTotalQuantityPipe implements PipeTransform {
 
-    transform(category: Category[], categoryId?: string): number {
-        let categoryClone = [...category];
-        if (categoryId) {
-            categoryClone = category.filter(category => category.id === categoryId);
-        }
-        return categoryClone.reduce((total, category) => total += category.total, 0);
+    transform(categories: Category[]): number {
+        return categories.reduce((total, category) => total += category.total, 0);
     }
 }

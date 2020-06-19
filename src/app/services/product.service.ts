@@ -49,7 +49,9 @@ export class ProductService {
     }
 
     getProduct(productId): Observable<Product> {
-        return this.http.get<Product>(`${environment.apiUrl}/products/${productId}`);
+        return this.http.get<any>(`${environment.apiUrl}/products/${productId}`).pipe(
+            map(results => results.data)
+        );
     }
 
     searchProductByName(categoryId: string, productName: string, page: number, limit: number): Observable<any> {
