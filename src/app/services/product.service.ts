@@ -55,36 +55,22 @@ export class ProductService {
     }
 
     searchProductByName(categoryId: string, productName: string, page: number, limit: number): Observable<any> {
-        return this.http.get<Product[]>(`${environment.apiUrl}/products?search=${productName}`).pipe(
-            map(products => {
-                products = products.filter(product => product.productName.includes(productName));
-                if (categoryId !== 'all') {
-                    products = products.filter(product => product.categoryId === categoryId);
-                }
-                const kindofProductsLen: number = products.length;
-                products = products.slice(
-                    (page - 1) * limit,
-                    page * limit
-                );
+        return this.http.get<any>(`${environment.apiUrl}/products?search=${productName}&categoryId=${categoryId}&page=${page}&limit=${limit}`).pipe(
+            map(results => {
                 return {
-                    kindofProductsLen,
-                    products
+                    kindofProductsLen: results.data[0].total,
+                    products: results.data.slice(1)
                 };
             })
         );
     }
 
-    searchAll(searchKey: string, page: number, limit: number): Observable<any> {
-        return this.http.get<Product[]>(`${environment.apiUrl}/products?search=${searchKey}`).pipe(
-            map(products => {
-                const kindofProductsLen: number = products.length;
-                products = products.slice(
-                    (page - 1) * limit,
-                    page * limit
-                );
+    searchAll(productName: string, page: number, limit: number): Observable<any> {
+        return this.http.get<any>(`${environment.apiUrl}/products?search=${productName}&page=${page}&limit=${limit}`).pipe(
+            map(results => {
                 return {
-                    kindofProductsLen,
-                    products
+                    kindofProductsLen: results.data[0].total,
+                    products: results.data.slice(1)
                 };
             })
         );

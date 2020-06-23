@@ -16,7 +16,7 @@
                 <li><a href="">GIÁ THẤP</a></li>
                 <li><a href="">GIÁ CAO</a></li>
                 <li><a href="">CHỌN LỌC</a></li>
-                <li>
+                <li [ngClass]="{invisible: selectedCategoryId === 'all'}">
                     <input #searchInput type="text" placeholder="Tìm trong Quạt mini" (keyup.enter)="searchProductByName(searchInput.value, 1)">
                     <a href="" routerLink="" (click)="searchProductByName(searchInput.value, 1)">
                         <i class="fa fa-search" aria-hidden="true"></i>
