@@ -9,7 +9,7 @@ import { FooterComponent } from './_layout/footer/footer.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { ProductDetailComponent } from './components/product/product-detail/product-detail.component';
 import { LayoutComponent } from './_layout/layout/layout.component';
-import { ProductTotalQuantityPipe } from './Pipes/product-total-quantity.pipe';
+import { ProductTotalQuantityPipe } from './pipes/product-total-quantity.pipe';
 import { MainComponent } from './_layout/main/main.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 

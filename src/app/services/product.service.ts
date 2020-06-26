@@ -6,6 +6,7 @@ import { switchMap, map } from 'rxjs/operators';
 import { Category } from '../models/product/category';
 import { environment } from 'src/environments/environment';
 import { Product } from '../models/product/product';
+import { EventEmitter } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
@@ -14,15 +15,24 @@ export class ProductService {
 
     productList$: BehaviorSubject<any> = new BehaviorSubject<object>({
         kindofProductsLen: 0,
-        products: [],
+        products: []
+    });
+
+    productSearch$: BehaviorSubject<any> = new BehaviorSubject<object>({
         searchAllValue: '',
         searchValue: '',
         categoryId: ''
     });
 
+    categoryIdClicked$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
     constructor(
         private http: HttpClient,
     ) { }
+
+    setCategoryIdClicked(): void {
+        this.categoryIdClicked$.next(true);
+    }
 
     getCategories(): Observable<Category[]> {
         return this.http.get<any>(`${environment.apiUrl}/categories`).pipe(
@@ -30,16 +40,17 @@ export class ProductService {
         );
     }
 
-    getProductsByCategoryId(categoryId: string, page: number, limit: number): Observable<Product[]> {
-        return this.http.get<any>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}&categoryId=${categoryId}`).pipe(
-            map(results => {
-                return results.data;
-            })
-        );
+    getProductsByCategoryId(categoryId: string, page: number, limit: number, order: string = ''): Observable<Product[]> {
+        return this.http.get<any>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}&categoryId=${categoryId}&order=${order}`)
+            .pipe(
+                map(results => {
+                    return results.data;
+                })
+            );
     }
 
-    getAllProducts(page: number, limit: number): Observable<Product[]> {
-        return this.http.get<any>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}`).pipe(
+    getAllProducts(page: number, limit: number, order: string = ''): Observable<Product[]> {
+        return this.http.get<any>(`${environment.apiUrl}/products/?page=${page}&limit=${limit}&order=${order}`).pipe(
             map(results => results.data)
         );
     }
@@ -48,14 +59,18 @@ export class ProductService {
         this.productList$.next(productList);
     }
 
+    setProductSearch(productSearch) {
+        this.productSearch$.next(productSearch);
+    }
+
     getProduct(productId): Observable<Product> {
         return this.http.get<any>(`${environment.apiUrl}/products/${productId}`).pipe(
             map(results => results.data)
         );
     }
 
-    searchProductByName(categoryId: string, productName: string, page: number, limit: number): Observable<any> {
-        return this.http.get<any>(`${environment.apiUrl}/products?search=${productName}&categoryId=${categoryId}&page=${page}&limit=${limit}`).pipe(
+    searchProductByName(categoryId: string, productName: string, page: number, limit: number, order: string = ''): Observable<any> {
+        return this.http.get<any>(`${environment.apiUrl}/products?search=${productName}&categoryId=${categoryId}&page=${page}&limit=${limit}&order=${order}`).pipe(
             map(results => {
                 return {
                     kindofProductsLen: results.data[0].total,
@@ -65,8 +80,8 @@ export class ProductService {
         );
     }
 
-    searchAll(productName: string, page: number, limit: number): Observable<any> {
-        return this.http.get<any>(`${environment.apiUrl}/products?search=${productName}&page=${page}&limit=${limit}`).pipe(
+    searchAll(productName: string, page: number, limit: number, order: string = ''): Observable<any> {
+        return this.http.get<any>(`${environment.apiUrl}/products?search=${productName}&page=${page}&limit=${limit}&order=${order}`).pipe(
             map(results => {
                 return {
                     kindofProductsLen: results.data[0].total,

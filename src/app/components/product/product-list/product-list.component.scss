@@ -38,6 +38,12 @@
                     a {
                         text-decoration: none;
                         color: #b8b8b8;
+                        &:hover {
+                            color: #009cff;
+                        }
+                        &.selected {
+                            color: #009cff;
+                        }
                     }
                     &:last-child {
                         display: flex;

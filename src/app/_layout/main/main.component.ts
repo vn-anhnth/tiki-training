@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/models/product/category';
 import { Product } from 'src/app/models/product/product';
 import { ProductService } from 'src/app/services/product.service';
+import { tap, switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-main',
@@ -11,49 +12,64 @@ import { ProductService } from 'src/app/services/product.service';
 export class MainComponent implements OnInit {
 
     categories: Category[] = [];
-    selecteCategoryId: string;
+    selectedCategoryId: string;
     limit = 5;
 
     constructor(private productService: ProductService) {
-        productService.productList$.subscribe(productList => {
-            if (productList.searchAllValue) {
-                this.selecteCategoryId = '';
+        productService.productSearch$.subscribe(productSearch => {
+            if (productSearch.searchAllValue) {
+                this.selectedCategoryId = 'all';
             }
         });
      }
 
     ngOnInit(): void {
-        this.getCategories();
-    }
-
-    getCategories(): void {
-        this.productService.getCategories().subscribe(categories => {
-            this.categories = categories;
-            this.getAllProducts(1, this.limit);
+        // this.productService.getCategories().subscribe(categories => {
+        //     this.categories = categories;
+        //     if (this.selectedCategoryId !== 'all') {
+        //         this.getAllProducts();
+        //     }
+        // });
+        this.productService.getCategories().pipe(
+            tap(categories => this.categories = categories),
+            switchMap(() => this.productService.getAllProducts(1, this.limit))
+        ).subscribe(products => {
+            if (this.selectedCategoryId !== 'all') {
+                this.productService.setProducts({
+                    kindofProductsLen: this.categories.reduce((total, category) => total += category.total, 0),
+                    products
+                });
+                this.productService.setProductSearch({});
+                this.productService.setCategoryIdClicked();
+                this.selectedCategoryId = 'all';
+            }
         });
     }
 
-    getAllProducts(page: number, limit: number): void {
-        this.productService.getAllProducts(page, limit)
-            .subscribe(products =>
+    getAllProducts(): void {
+        this.productService.getAllProducts(1, this.limit)
+            .subscribe(products => {
                 this.productService.setProducts({
                     kindofProductsLen: this.categories.reduce((total, category) => total += category.total, 0),
-                    products,
-                    categoryId: 'all'
-                })
-            );
-        this.selecteCategoryId = '';
+                    products
+                });
+                this.productService.setProductSearch({});
+            });
+        this.productService.setCategoryIdClicked();
+        this.selectedCategoryId = 'all';
     }
 
     getProductsByCategoryId(categoryId: string): void {
         this.productService.getProductsByCategoryId(categoryId, 1, this.limit)
-            .subscribe(products =>
+            .subscribe(products => {
                 this.productService.setProducts({
-                    kindofProductsLen: this.categories.filter(category => category.id === this.selecteCategoryId)[0].total,
+                    kindofProductsLen: this.categories.filter(category => category.id === parseInt(this.selectedCategoryId, 10))[0].total,
                     products,
                     categoryId
-                })
-            );
-        this.selecteCategoryId = categoryId;
+                });
+                this.productService.setProductSearch({});
+            });
+        this.productService.setCategoryIdClicked();
+        this.selectedCategoryId = categoryId;
     }
 }

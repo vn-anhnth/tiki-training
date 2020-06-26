@@ -1,6 +1,6 @@
 <div class="product-list">
     <div class="filter">
-        <div class="filter__listbox">Quạt mini: <span>77 kết quả</span></div>
+        <div class="filter__listbox">{{selectedCagoryName}}: <span>{{kindofProductsLen}} kết quả</span></div>
         <div class="filter__item">
             <i class="fa fa-info-circle text-warning"></i>
             Tiêu chí đang chọn: <span>Đánh giá từ 4 sao</span><a href="">X</a>
@@ -10,14 +10,11 @@
         <div class="product__short-list">
             <ul>
                 <li>Ưu tiên xem:</li>
-                <li><a href="">HÀNG MỚI</a></li>
-                <li><a href="">BÁN CHẠY</a></li>
-                <li><a href="">GIẢM GIÁ NHIỀU</a></li>
-                <li><a href="">GIÁ THẤP</a></li>
-                <li><a href="">GIÁ CAO</a></li>
-                <li><a href="">CHỌN LỌC</a></li>
-                <li [ngClass]="{invisible: selectedCategoryId === 'all'}">
-                    <input #searchInput type="text" placeholder="Tìm trong Quạt mini" (keyup.enter)="searchProductByName(searchInput.value, 1)">
+                <li *ngFor="let item of orderList | keyvalue: originalOrder">
+                    <a routerLink='' (click)="getProductsByOrder(item.key)" [ngClass]="{'selected': item.key === selectedOrder}">{{item.value}}</a>
+                </li>
+                <li [ngClass]="{'invisible': selectedCategoryId === 'all'}">
+                    <input #searchInput type="text" placeholder="Tìm trong {{selectedCagoryName}}" (keyup.enter)="searchProductByName(searchInput.value, 1)">
                     <a href="" routerLink="" (click)="searchProductByName(searchInput.value, 1)">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </a>
