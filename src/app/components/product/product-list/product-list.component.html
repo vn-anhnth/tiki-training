@@ -26,7 +26,7 @@
                 <li *ngFor="let product of products">
                     <a routerLink="/detail/{{product.id}}">
                         <ul class="item">
-                            <li><img src="{{product.img[0]}}" alt="Quạt mini"></li>
+                            <li><img src="{{product.img[0]}}" alt="{{product.productName}}"></li>
                             <li class="title">{{product.productName}}</li>
                             <li class="final-price">
                                 <b>{{(product.price - (product.discount/100*product.price)) | number}} ₫</b><span>-{{product.discount}}%</span>

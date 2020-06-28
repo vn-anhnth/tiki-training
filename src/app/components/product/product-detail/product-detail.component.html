@@ -2,9 +2,9 @@
     <div class="beardcrumbs">
         <span><a href="">Trang chủ</a></span>
         <span class="delimiter">»</span>
-        <span><a href="">Quạt mini</a></span>
+        <span><a href="">{{product?.categoryName}}</a></span>
         <span class="delimiter">»</span>
-        <span><a href="">aaaa</a></span>
+        <span><a routerLink="/detail/{{product?.id}}">{{product?.productName}}</a></span>
     </div>
     <div class="detail" *ngIf="product">
         <div class="detail__image">
