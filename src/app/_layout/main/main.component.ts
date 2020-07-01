@@ -48,27 +48,37 @@ export class MainComponent implements OnInit {
     }
 
     getAllProducts(): void {
-        this.productService.getAllProducts(1, this.limit).subscribe(products => {
+        const params = { limit: this.limit };
+        this.productService.getProducts(params).subscribe(productList => {
             this.productService.setProducts({
                 kindofProductsLen: this.categories.reduce((total, category) => total += category.total, 0),
-                products
+                products: productList.products,
+                cursor: productList.cursor
             });
             this.productService.setProductSearch({});
-            this.productService.setCategoryIdClicked();
+            this.productService.setCategoryIdClicked({
+                categoryId: 'all',
+                categoryName: 'Tất cả'
+            });
             this.selectedCategoryId = 'all';
         });
     }
 
-    getProductsByCategoryId(categoryId: string): void {
-        this.productService.getProductsByCategoryId(categoryId, 1, this.limit).subscribe(products => {
+    getProductsByCategoryId(categoryId: string, categoryName: string): void {
+        const params = { categoryId, limit: this.limit };
+        this.productService.getProducts(params).subscribe(productList => {
             this.productService.setProducts({
                 kindofProductsLen: this.categories.filter(category => category.id === parseInt(this.selectedCategoryId, 10))[0].total,
-                products,
+                products: productList.products,
+                cursor: productList.cursor,
                 categoryId
             });
             this.productService.setProductSearch({});
         });
-        this.productService.setCategoryIdClicked();
+        this.productService.setCategoryIdClicked({
+            categoryId,
+            categoryName
+        });
         this.selectedCategoryId = categoryId;
     }
 }

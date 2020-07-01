@@ -28,6 +28,7 @@ export class ProductListComponent implements AfterViewInit {
         price_desc: 'GIÁ CAO',
         position: 'CHỌN LỌC'
     };
+    cursor: '';
 
     @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -36,19 +37,19 @@ export class ProductListComponent implements AfterViewInit {
             this.selectedPage = productList.kindofProductsLen === this.kindofProductsLen ? this.selectedPage : 1;
             this.products = productList.products || this.products;
             this.kindofProductsLen = productList.kindofProductsLen;
+            this.cursor = productList.cursor;
         });
 
-        this.productService.productSearch$.subscribe(productSearch => {
-            if (productSearch.searchAllValue || (!productSearch.searchValue && !productSearch.searchAllValue)) {
-                const seletedCategoryEle = document.querySelectorAll('a[data-categoryId].selected')[0];
-                if (seletedCategoryEle) {
-                    this.selectedCategoryId = seletedCategoryEle.getAttribute('data-categoryId');
-                    this.selectedCagoryName = seletedCategoryEle.textContent.split('(')[0];
-                }
+        productService.categoryIdClicked$.subscribe((categoryIdClicked) => {
+            this.selectedOrder = 'position';
+            if (categoryIdClicked) {
+                this.selectedCategoryId = categoryIdClicked.categoryId;
+                this.selectedCagoryName = categoryIdClicked.categoryName;
+            } else {
+                this.selectedCategoryId = 'all';
+                this.selectedCagoryName = 'Tất cả';
             }
         });
-
-        productService.categoryIdClicked$.subscribe(() => this.selectedOrder = 'position');
     }
 
     ngAfterViewInit(): void {
@@ -61,56 +62,59 @@ export class ProductListComponent implements AfterViewInit {
     }
 
     setSelectedPage(page: number): void {
-        this.getProductsByOrder(this.selectedOrder, page);
+        this.getProductsByOrder(this.selectedOrder, this.cursor);
     }
 
 
-    getProductsByOrder(order: string, page: number = 1): void {
+    getProductsByOrder(order: string, cursor: string = ''): void {
         if (this.searchInput.nativeElement.value !== '') {
-            this.searchProductByName(this.searchInput.nativeElement.value, page, order);
+            this.searchProductByName(this.searchInput.nativeElement.value, cursor, order);
         } else if (this.searchAllValue) {
-            this.productService.searchAll(this.searchAllValue, page, this.limit, order).subscribe(productList => {
+            const params: any = { search: this.searchAllValue, cursor, limit: this.limit, order };
+            this.productService.getProducts(params).subscribe(productList => {
                 this.productService.setProducts({
                     kindofProductsLen: productList.kindofProductsLen,
-                    products: productList.products
-                });
-                this.productService.setProductSearch({
-                    searchAllValue: this.searchAllValue
+                    products: productList.products,
+                    cursor: productList.cursor
                 });
             });
+            this.productService.setProductSearch({
+                searchAllValue: this.searchAllValue
+            });
         } else {
-            if (this.selectedCategoryId === 'all') {
-                this.productService.getAllProducts(page, this.limit, order).subscribe(products => {
-                    this.productService.setProducts({
-                        kindofProductsLen: this.kindofProductsLen,
-                        products
-                    });
-                });
-            } else {
-                this.productService.getProductsByCategoryId(this.selectedCategoryId, page, this.limit, order).subscribe(products => {
-                    this.productService.setProducts({
-                        kindofProductsLen: this.kindofProductsLen,
-                        products
-                    });
-                });
+            const params: any = { cursor, limit: this.limit, order };
+            if (this.selectedCategoryId !== 'all') {
+                params.categoryId = this.selectedCategoryId;
             }
+            this.productService.getProducts(params).subscribe(productList => {
+                this.productService.setProducts({
+                    kindofProductsLen: this.kindofProductsLen,
+                    products: productList.products,
+                    cursor: productList.cursor
+                });
+            });
         }
         this.selectedOrder = order;
     }
 
-    searchProductByName(productName: string, selectedPage: number, order: string = '') {
+    searchProductByName(productName: string, cursor: string, order: string = '') {
         if (productName) {
-            this.productService.searchProductByName(this.selectedCategoryId, productName, selectedPage, this.limit, order)
-                .subscribe(productList => {
-                    this.productService.setProducts({
-                        products: productList.products,
-                        kindofProductsLen: productList.kindofProductsLen
-                    });
-                    this.productService.setProductSearch({
-                        searchValue: productName
-                    });
+            const params: any = { categoryId: this.selectedCategoryId, search: productName, cursor, limit: this.limit, order };
+            this.productService.getProducts(params).subscribe(productList => {
+                this.productService.setProducts({
+                    kindofProductsLen: productList.kindofProductsLen,
+                    products: productList.products,
+                    cursor: productList.cursor
                 });
-            this.productService.setCategoryIdClicked();
+            });
+            this.productService.setProductSearch({
+                searchValue: productName
+            });
+            // set selectedOrder='position'
+            this.productService.setCategoryIdClicked({
+                categoryId: this.selectedCategoryId,
+                categoryName: this.selectedCagoryName
+            });
         }
     }
 
