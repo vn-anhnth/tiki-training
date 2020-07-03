@@ -8,4 +8,6 @@ export interface Product {
     price: number;
     discount: number;
     description: string;
+    rate: number;
+    date: string;
 }

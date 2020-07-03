@@ -13,11 +13,7 @@ import { EventEmitter } from '@angular/core';
 })
 export class ProductService {
 
-    productList$: BehaviorSubject<any> = new BehaviorSubject<object>({
-        kindofProductsLen: 0,
-        products: [],
-        cursor: ''
-    });
+    productParams$: Subject<any> = new Subject<any>();
 
     productSearch$: BehaviorSubject<any> = new BehaviorSubject<object>({
         searchAllValue: '',
@@ -34,12 +30,12 @@ export class ProductService {
         private http: HttpClient,
     ) { }
 
-    setCategoryIdClicked(categoryClicked?: object): void {
-        this.categoryIdClicked$.next(categoryClicked);
+    setProductParams(params): void {
+        this.productParams$.next(params);
     }
 
-    setProducts(productList) {
-        this.productList$.next(productList);
+    setCategoryIdClicked(categoryClicked?: object): void {
+        this.categoryIdClicked$.next(categoryClicked);
     }
 
     setProductSearch(productSearch) {
@@ -64,7 +60,7 @@ export class ProductService {
                 return {
                     cursor: results.data.cursor,
                     products: results.data.products,
-                    kindofProductsLen: results.data?.total
+                    kindofProductsLen: results.data.total
                 };
             })
         );

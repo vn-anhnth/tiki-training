@@ -1,9 +1,9 @@
 <div class="product-list">
     <div class="filter">
         <div class="filter__listbox">{{selectedCagoryName}}: <span>{{kindofProductsLen}} kết quả</span></div>
-        <div class="filter__item">
+        <div class="filter__item" [ngClass]="{'d-none': !rate}">
             <i class="fa fa-info-circle text-warning"></i>
-            Tiêu chí đang chọn: <span>Đánh giá từ 4 sao</span><a href="">X</a>
+            Tiêu chí đang chọn: <span>Đánh giá từ {{rate}} sao</span><a href="">X</a>
         </div>
     </div>
     <div class="product">
@@ -33,8 +33,10 @@
                             </li>
                             <li class="regular-price"><del>{{product.price | number}} ₫</del></li>
                             <li class="rating">
-                                <span *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']"
-                                    class="fa fa-star {{item}}"></span>
+                                <span
+                                    *ngFor="let item of convertRating(product.rate)"
+                                    class="fa fa-star {{item}}">
+                                </span>
                                 <span class="tiny-word"> (6 nhận xét)</span>
                             </li>
                         </ul>
@@ -45,6 +47,6 @@
         </div>
     </div>
     <div class="pagination" [ngClass]="{'d-none': kindofProductsLen/limit <= 1}">
-        <ngb-pagination [collectionSize]="kindofProductsLen" [(page)]="selectedPage" [pageSize]="limit" [maxSize]="5" [rotate]="true" [ellipses]="false" (pageChange)="setSelectedPage($event)" ></ngb-pagination>
+        <ngb-pagination [collectionSize]="kindofProductsLen" [(page)]="selectedPage" [pageSize]="limit" [maxSize]="5" [rotate]="true" [ellipses]="false" (pageChange)="changePage($event)" ></ngb-pagination>
     </div>
 </div>

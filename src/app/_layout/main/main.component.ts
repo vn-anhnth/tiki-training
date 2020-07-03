@@ -14,6 +14,7 @@ export class MainComponent implements OnInit {
     categories: Category[] = [];
     selectedCategoryId: string;
     limit = 5;
+    productParams: object = {};
 
     constructor(private productService: ProductService) {
         productService.productSearch$.subscribe(productSearch => {
@@ -21,24 +22,10 @@ export class MainComponent implements OnInit {
                 this.selectedCategoryId = 'all';
             }
         });
-     }
+        productService.productParams$.subscribe(params => this.productParams = params);
+    }
 
     ngOnInit(): void {
-        // this.productService.getCategories().pipe(
-        //     tap(categories => this.categories = categories),
-        //     switchMap(() => this.productService.getAllProducts(1, this.limit))
-        // ).subscribe(products => {
-        //     if (this.selectedCategoryId !== 'all') {
-        //         this.productService.setProducts({
-        //             kindofProductsLen: this.categories.reduce((total, category) => total += category.total, 0),
-        //             products
-        //         });
-        //         this.productService.setProductSearch({});
-        //         this.productService.setCategoryIdClicked();
-        //         this.selectedCategoryId = 'all';
-        //     }
-        // });
-
         this.productService.getCategories().subscribe(categories => {
             this.categories = categories;
             if (this.selectedCategoryId !== 'all') {
@@ -49,36 +36,32 @@ export class MainComponent implements OnInit {
 
     getAllProducts(): void {
         const params = { limit: this.limit };
-        this.productService.getProducts(params).subscribe(productList => {
-            this.productService.setProducts({
-                kindofProductsLen: this.categories.reduce((total, category) => total += category.total, 0),
-                products: productList.products,
-                cursor: productList.cursor
-            });
-            this.productService.setProductSearch({});
-            this.productService.setCategoryIdClicked({
-                categoryId: 'all',
-                categoryName: 'Tất cả'
-            });
-            this.selectedCategoryId = 'all';
+        this.productService.setProductParams(params);
+        this.productService.setProductSearch({});
+        this.productService.setCategoryIdClicked({
+            categoryId: 'all',
+            categoryName: 'Tất cả'
         });
+        this.selectedCategoryId = 'all';
     }
 
     getProductsByCategoryId(categoryId: string, categoryName: string): void {
         const params = { categoryId, limit: this.limit };
-        this.productService.getProducts(params).subscribe(productList => {
-            this.productService.setProducts({
-                kindofProductsLen: this.categories.filter(category => category.id === parseInt(this.selectedCategoryId, 10))[0].total,
-                products: productList.products,
-                cursor: productList.cursor,
-                categoryId
-            });
-            this.productService.setProductSearch({});
-        });
+        this.productService.setProductParams(params);
+        this.productService.setProductSearch({});
         this.productService.setCategoryIdClicked({
             categoryId,
             categoryName
         });
         this.selectedCategoryId = categoryId;
+    }
+
+    getProductsByRating(rate: number): void {
+        const params: any = { ...this.productParams };
+        delete params.order;
+        params.rate = rate;
+        this.productService.setProductParams(params);
+        // set selectedOrder='position'
+        this.productService.setCategoryIdClicked();
     }
 }

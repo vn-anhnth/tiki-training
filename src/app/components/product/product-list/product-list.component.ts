@@ -14,6 +14,7 @@ export class ProductListComponent implements AfterViewInit {
 
     products: Product[] = [];
     selectedPage = 1;
+    selectedPageBeforeChange = 1;
     limit = 5;
     kindofProductsLen: number;
     searchAllValue: string;
@@ -29,15 +30,18 @@ export class ProductListComponent implements AfterViewInit {
         position: 'CHỌN LỌC'
     };
     cursor: '';
+    rate = 0;
 
     @ViewChild('searchInput') searchInput: ElementRef;
 
     constructor(private productService: ProductService) {
-        productService.productList$.subscribe(productList => {
-            this.selectedPage = productList.kindofProductsLen === this.kindofProductsLen ? this.selectedPage : 1;
-            this.products = productList.products || this.products;
-            this.kindofProductsLen = productList.kindofProductsLen;
-            this.cursor = productList.cursor;
+        productService.productParams$.subscribe(params => {
+            this.rate = params.rate || 0;
+            productService.getProducts(params).subscribe(productList => {
+                this.products = productList.products;
+                this.cursor = productList.cursor;
+                this.kindofProductsLen = productList.kindofProductsLen;
+            });
         });
 
         productService.categoryIdClicked$.subscribe((categoryIdClicked) => {
@@ -61,52 +65,39 @@ export class ProductListComponent implements AfterViewInit {
         });
     }
 
-    setSelectedPage(page: number): void {
-        this.getProductsByOrder(this.selectedOrder, this.cursor);
+    changePage(page: number): void {
+        let cursor: string = this.cursor;
+        if (page < this.selectedPageBeforeChange) {
+            cursor += '-reverse';
+        }
+        this.selectedPageBeforeChange = page;
+        this.getProductsByOrder(this.selectedOrder, cursor, this.rate);
     }
 
 
-    getProductsByOrder(order: string, cursor: string = ''): void {
+    getProductsByOrder(order: string, cursor: string = '', rate: number = 0): void {
         if (this.searchInput.nativeElement.value !== '') {
             this.searchProductByName(this.searchInput.nativeElement.value, cursor, order);
         } else if (this.searchAllValue) {
-            const params: any = { search: this.searchAllValue, cursor, limit: this.limit, order };
-            this.productService.getProducts(params).subscribe(productList => {
-                this.productService.setProducts({
-                    kindofProductsLen: productList.kindofProductsLen,
-                    products: productList.products,
-                    cursor: productList.cursor
-                });
-            });
+            const params: any = { search: this.searchAllValue, cursor, limit: this.limit, order, rate };
+            this.productService.setProductParams(params);
             this.productService.setProductSearch({
                 searchAllValue: this.searchAllValue
             });
         } else {
-            const params: any = { cursor, limit: this.limit, order };
+            const params: any = { cursor, limit: this.limit, order, rate };
             if (this.selectedCategoryId !== 'all') {
                 params.categoryId = this.selectedCategoryId;
             }
-            this.productService.getProducts(params).subscribe(productList => {
-                this.productService.setProducts({
-                    kindofProductsLen: this.kindofProductsLen,
-                    products: productList.products,
-                    cursor: productList.cursor
-                });
-            });
+            this.productService.setProductParams(params);
         }
         this.selectedOrder = order;
     }
 
     searchProductByName(productName: string, cursor: string, order: string = '') {
         if (productName) {
-            const params: any = { categoryId: this.selectedCategoryId, search: productName, cursor, limit: this.limit, order };
-            this.productService.getProducts(params).subscribe(productList => {
-                this.productService.setProducts({
-                    kindofProductsLen: productList.kindofProductsLen,
-                    products: productList.products,
-                    cursor: productList.cursor
-                });
-            });
+            const params: any = { categoryId: this.selectedCategoryId, search: productName, cursor, limit: this.limit, order, rate: this.rate };
+            this.productService.setProductParams(params);
             this.productService.setProductSearch({
                 searchValue: productName
             });
@@ -120,5 +111,13 @@ export class ProductListComponent implements AfterViewInit {
 
     originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
         return 0;
+    }
+
+    convertRating = (rate: number): Array<string> => {
+        const checkedArr: Array<string> = [];
+        for (let index = 0; index < 5; index++) {
+            Math.floor(rate) > index ? checkedArr.push('checked') : checkedArr.push('');
+        }
+        return checkedArr;
     }
 }

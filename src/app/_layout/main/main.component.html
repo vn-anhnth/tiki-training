@@ -21,22 +21,22 @@
         </div>
         <div class="review">
             <p class="title"><b>ĐÁNH GIÁ</b></p>
-            <a href="">
-                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', 'checked', 'checked']">
+            <a routerLink="" (click)="getProductsByRating(5)">
+                <span *ngFor="let item of ['checked', 'checked', 'checked', 'checked', 'checked']">
                     <span class="fa fa-star {{item}}"></span>
                 </span>
                 <span class="tiny-word"> (từ 5 sao)</span>
             </a>
             <br>
-            <a href="">
-                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']">
+            <a routerLink="" (click)="getProductsByRating(4)">
+                <span *ngFor="let item of ['checked', 'checked', 'checked', 'checked', '']">
                     <span class="fa fa-star {{item}}"></span>
                 </span>
                 <span class="tiny-word"> (từ 4 sao)</span>
             </a>
             <br>
-            <a href="">
-                <span href="" *ngFor="let item of ['checked', 'checked', 'checked', '', '']">
+            <a routerLink="" (click)="getProductsByRating(3)">
+                <span *ngFor="let item of ['checked', 'checked', 'checked', '', '']">
                     <span class="fa fa-star {{item}}"></span>
                 </span>
                 <span class="tiny-word"> (từ 3 sao)</span>

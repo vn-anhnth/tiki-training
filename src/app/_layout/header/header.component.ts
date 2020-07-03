@@ -28,15 +28,9 @@ export class HeaderComponent implements AfterViewInit {
         if (searchAllInput) {
             this.router.navigateByUrl('');
             const params: any = { search: searchAllInput, limit: this.limit };
-            this.productService.getProducts(params).subscribe(productList => {
-                this.productService.setProducts({
-                    kindofProductsLen: productList.kindofProductsLen,
-                    products: productList.products,
-                    cursor: productList.cursor
-                });
-                this.productService.setProductSearch({
-                    searchAllValue: this.searchAllInput.nativeElement.value,
-                });
+            this.productService.setProductParams(params);
+            this.productService.setProductSearch({
+                searchAllValue: this.searchAllInput.nativeElement.value,
             });
             // set selectedOrder='position'
             this.productService.setCategoryIdClicked();
